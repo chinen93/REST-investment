@@ -7,11 +7,21 @@ The application to be developed will use two services that run on docker contain
 Create command.
 
 ```sh
-docker run --name rest_mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=bootdb -p 3306:3306 -p 33060:33060 -d mysql:8
+docker run --name rest_mysql -e MYSQL_ROOT_HOST=% -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=bootdb -p 3306:3306 -p 33060:33060 -d mysql:8
+```
+Wait docker to fully initialize before using it.
+
+See log progress.
+```sh
+docker logs -f rest_mysql
+```
+
+Enter in the database.
+```sh
+mysql -h 127.0.0.1 -P 3306 -uroot -proot
 ```
 
 Start and Stop commands.
-
 ```sh
 docker stop rest_mysql
 docker start rest_mysql
