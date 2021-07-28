@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.investrest.models.Quote;
+import com.example.investrest.dto.QuoteDTO;
 import com.example.investrest.repositories.QuoteRepository;
 
 import java.lang.Iterable;
@@ -23,7 +24,18 @@ public class QuoteService {
         return quoteRepository.findAll();
     }
 
-    public void saveQuote(Quote quote) {
-        quoteRepository.save(quote);
+    public Quote saveQuote(QuoteDTO quoteDTO) {
+        Quote auxQuote = quoteRepository.findByStockId(quoteDTO.getStockId());
+
+        if(auxQuote == null){
+            // Quote does not exist in the DB.
+            auxQuote = quoteDTO.createQuote();
+        }else{
+            // Quote exists in the DB.
+            auxQuote.getDatePriceMap().put(quoteDTO.getDate(), quoteDTO.getPrice());
+        }
+        quoteRepository.save(auxQuote);
+
+        return auxQuote;
     }
 }

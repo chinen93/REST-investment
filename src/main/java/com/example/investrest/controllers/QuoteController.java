@@ -31,8 +31,7 @@ public class QuoteController {
     @PostMapping(path="/add") // Map ONLY POST Requests
     public ResponseEntity<Quote> addNewQuote (@RequestBody QuoteDTO quoteDTO) {
 
-        Quote quote = quoteDTO.createQuote();
-        quoteService.saveQuote(quote);
+        Quote quote = quoteService.saveQuote(quoteDTO);
 
         return new ResponseEntity<>(quote, HttpStatus.CREATED);
     }
