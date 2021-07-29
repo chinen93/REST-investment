@@ -24,6 +24,10 @@ public class QuoteService {
         return quoteRepository.findAll();
     }
 
+    public Quote findOneQuote(String stockId) {
+        return quoteRepository.findByStockId(stockId);
+    }
+
     public Quote saveQuote(QuoteDTO quoteDTO) {
         Quote auxQuote = quoteRepository.findByStockId(quoteDTO.getStockId());
 

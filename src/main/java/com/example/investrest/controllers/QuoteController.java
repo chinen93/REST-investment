@@ -41,4 +41,15 @@ public class QuoteController {
         // This returns a JSON or XML with the users
         return quoteService.findAllQuotes();
     }
+
+    @GetMapping("/{stockId}")
+    public ResponseEntity<Quote> getOneQuote(@PathVariable String stockId) {
+        Quote quote = quoteService.findOneQuote(stockId);
+
+        if(quote == null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(quote, HttpStatus.OK);
+        }
+    }
 }
