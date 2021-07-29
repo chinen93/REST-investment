@@ -36,7 +36,7 @@ public class QuoteService {
             auxQuote = quoteDTO.createQuote();
         }else{
             // Quote exists in the DB.
-            auxQuote.getDatePriceMap().put(quoteDTO.getDate(), quoteDTO.getPrice());
+            auxQuote.getQuotes().put(quoteDTO.getDate(), quoteDTO.getPrice());
         }
         quoteRepository.save(auxQuote);
 

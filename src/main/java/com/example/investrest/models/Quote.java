@@ -37,11 +37,11 @@ public class Quote {
     joinColumns = {@JoinColumn(name = "quotes_id", referencedColumnName = "id")})
   @MapKeyColumn(name = "date")
   @Column(name = "price")
-  private Map<LocalDate, Double> datePriceMap;
+  private Map<LocalDate, Double> quotes;
 
   public Quote(String stockId, LocalDate date, Double price) {
     this.stockId = stockId;
-    this.datePriceMap = new HashMap<LocalDate, Double>();
-    this.datePriceMap.put(date, price);
+    this.quotes = new HashMap<LocalDate, Double>();
+    this.quotes.put(date, price);
   }
 }
