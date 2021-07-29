@@ -33,7 +33,11 @@ public class QuoteController {
 
         Quote quote = quoteService.saveQuote(quoteDTO);
 
-        return new ResponseEntity<>(quote, HttpStatus.CREATED);
+        if(quote == null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(quote, HttpStatus.CREATED);
+        }
     }
 
     @GetMapping(path="/all")
