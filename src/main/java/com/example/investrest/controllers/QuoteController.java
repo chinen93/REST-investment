@@ -15,8 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.example.investrest.models.Quote;
+import com.example.investrest.models.Stock;
 import com.example.investrest.dto.QuoteDTO;
 import com.example.investrest.services.QuoteService;
+import com.example.investrest.services.StockService;
 
 import java.time.LocalDate;
 
@@ -28,10 +30,14 @@ public class QuoteController {
 	@Autowired
     private QuoteService quoteService;
 
+    @Autowired
+    private StockService stockService;
+
     @PostMapping(path="/add") // Map ONLY POST Requests
     public ResponseEntity<Quote> addNewQuote (@RequestBody QuoteDTO quoteDTO) {
 
-        Quote quote = quoteService.saveQuote(quoteDTO);
+        Stock[] stocks = stockService.getStocksREST();
+        Quote quote = quoteService.saveQuote(quoteDTO, stocks);
 
         if(quote == null){
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

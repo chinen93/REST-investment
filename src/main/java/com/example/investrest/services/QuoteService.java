@@ -8,9 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-
-import org.springframework.web.client.RestTemplate;
 
 import com.example.investrest.models.Quote;
 import com.example.investrest.models.Stock;
@@ -37,11 +34,7 @@ public class QuoteService {
         return quoteRepository.findByStockId(stockId);
     }
 
-    public boolean inStock(String stockId){
-        // Get stocks from REST
-        RestTemplate restTemplate = new RestTemplate();
-        Stock[] stocks = restTemplate.getForObject("http://localhost:8080/stock", Stock[].class);
-
+    public boolean inStock(String stockId, Stock[] stocks){
         // Find if stockId is in the stocks
         for (Stock stock : stocks) {
             String id = stock.getId().toUpperCase();
@@ -53,12 +46,12 @@ public class QuoteService {
         return false;
     }
 
-    public Quote saveQuote(QuoteDTO quoteDTO) {
+    public Quote saveQuote(QuoteDTO quoteDTO, Stock[] stocks) {
 
         String stockId = quoteDTO.getStockId();
 
         // Check if should save quote.
-        if (!inStock(stockId)){
+        if (!inStock(stockId, stocks)){
             log.info(stockId + ": not valid.");
             return null;
         }
