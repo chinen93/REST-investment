@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
 
 import com.example.investrest.models.Stock;
 
@@ -41,5 +42,10 @@ public class StockService {
         log.info("Get stocks from stock-manager");
 
         return stocks;
+    }
+
+    @CacheEvict(value="stocks", allEntries=true)
+    public void evictAllCacheValues() {
+        log.info("Clear stocks cache");
     }
 }
