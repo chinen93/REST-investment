@@ -4,6 +4,7 @@
 package com.example.investrest.dto;
 
 import lombok.Getter;
+import lombok.AllArgsConstructor;
 
 import java.time.LocalDate;
 
@@ -11,6 +12,7 @@ import com.example.investrest.models.Quote;
 
 // DTO (Data Transfer Object)
 @Getter
+@AllArgsConstructor
 public class QuoteDTO {
     private String stockId;
     private LocalDate date;
