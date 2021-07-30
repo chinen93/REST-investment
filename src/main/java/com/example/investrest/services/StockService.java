@@ -8,9 +8,16 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.MediaType;
+
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CacheEvict;
+
+import org.json.JSONObject;
+
 
 import com.example.investrest.models.Stock;
 
@@ -47,5 +54,23 @@ public class StockService {
     @CacheEvict(value="stocks", allEntries=true)
     public void evictAllCacheValues() {
         log.info("Clear stocks cache");
+    }
+
+    public void registerClearStocksCache(){
+        log.info("Registering to clear stock cache");
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        JSONObject notification = new JSONObject();
+        notification.put("host", "localhost");
+        notification.put("port", 8081);
+
+        HttpEntity<String> request = new HttpEntity<String>(notification.toString(), headers);
+        String notificationResult = restTemplate.postForObject("http://localhost:8080/notification", request, String.class);
+
+        log.info(notificationResult);
     }
 }
