@@ -35,6 +35,7 @@ public class StockService {
         to an actual cache interception at runtime even if the invoked method is marked with @Cacheable.
          */
         // Simulate a slow request to see if the cache is working
+        log.info("Get stocks from stock-manager");
         try {
             long time = 1500L;
             Thread.sleep(time);
@@ -45,8 +46,6 @@ public class StockService {
         // Get stocks from REST
         RestTemplate restTemplate = new RestTemplate();
         Stock[] stocks = restTemplate.getForObject("http://localhost:8080/stock", Stock[].class);
-
-        log.info("Get stocks from stock-manager");
 
         return stocks;
     }

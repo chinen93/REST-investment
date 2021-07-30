@@ -27,14 +27,18 @@ public class QuoteService {
     private QuoteRepository quoteRepository;
 
     public Iterable<Quote> findAllQuotes() {
+        log.info("Get all quotes");
         return quoteRepository.findAll();
     }
 
     public Quote findOneQuote(String stockId) {
+        log.info("Get " + stockId + " quote");
         return quoteRepository.findByStockId(stockId);
     }
 
     public boolean inStock(String stockId, Stock[] stocks){
+        log.info("Check if " + stockId + " in cached stocks");
+
         // Find if stockId is in the stocks
         for (Stock stock : stocks) {
             String id = stock.getId().toUpperCase();
@@ -47,8 +51,8 @@ public class QuoteService {
     }
 
     public Quote saveQuote(QuoteDTO quoteDTO, Stock[] stocks) {
-
         String stockId = quoteDTO.getStockId();
+        log.info("Save quote " + stockId);
 
         // Check if should save quote.
         if (!inStock(stockId, stocks)){
@@ -60,8 +64,10 @@ public class QuoteService {
 
         if(auxQuote == null){
             // Quote does not exist in the DB.
+            log.info("New quote " + stockId);
             auxQuote = quoteDTO.createQuote();
         }else{
+            log.info("Update quote " + stockId);
             // Quote exists in the DB.
             auxQuote.getQuotes().put(quoteDTO.getDate(), quoteDTO.getPrice());
         }

@@ -3,6 +3,9 @@
  */
 package com.example.investrest.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +30,8 @@ import java.time.LocalDate;
 @RequestMapping(path="/quote") // This means URL's start with /quote (after Application path)
 public class QuoteController {
 
+    private static final Logger log = LoggerFactory.getLogger(QuoteController.class);
+
 	@Autowired
     private QuoteService quoteService;
 
@@ -35,6 +40,8 @@ public class QuoteController {
 
     @PostMapping(path="/add") // Map ONLY POST Requests
     public ResponseEntity<Quote> addNewQuote (@RequestBody QuoteDTO quoteDTO) {
+
+        log.info("endpoint: '/quote/add'");
 
         Stock[] stocks = stockService.getStocksREST();
         Quote quote = quoteService.saveQuote(quoteDTO, stocks);
@@ -48,12 +55,16 @@ public class QuoteController {
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Quote> getAllQuotes() {
+        log.info("endpoint: '/quote/all'");
+
         // This returns a JSON or XML with the users
         return quoteService.findAllQuotes();
     }
 
     @GetMapping("/{stockId}")
     public ResponseEntity<Quote> getOneQuote(@PathVariable String stockId) {
+        log.info("endpoint: '/quote/" + stockId + "'");
+
         Quote quote = quoteService.findOneQuote(stockId);
 
         if(quote == null){
