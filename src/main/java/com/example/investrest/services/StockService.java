@@ -51,8 +51,8 @@ public class StockService {
             throw new IllegalStateException(e);
         }
 
-        // Get stocks from REST
-        Stock[] stocks = this.restTemplate.getForObject("http://localhost:8080/stock", Stock[].class);
+        // Get stocks from REST docker ip
+        Stock[] stocks = this.restTemplate.getForObject("http://172.17.0.3:8080/stock", Stock[].class);
 
         return stocks;
     }
@@ -69,11 +69,12 @@ public class StockService {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         JSONObject notification = new JSONObject();
-        notification.put("host", "localhost");
+        // host == application docker ip
+        notification.put("host", "172.17.0.4");
         notification.put("port", 8081);
 
         HttpEntity<String> request = new HttpEntity<String>(notification.toString(), headers);
-        String notificationResult = this.restTemplate.postForObject("http://localhost:8080/notification", request, String.class);
+        String notificationResult = this.restTemplate.postForObject("http://172.17.0.3:8080/notification", request, String.class);
 
         log.info(notificationResult);
     }

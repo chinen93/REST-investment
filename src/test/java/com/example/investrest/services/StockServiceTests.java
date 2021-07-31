@@ -42,7 +42,7 @@ class StockServiceTests {
         Stock[] stocks = stockService.getStocksREST();
 
         // Assert tests
-        verify(restTemplate, times(1)).getForObject("http://localhost:8080/stock", Stock[].class);
+        verify(restTemplate, times(1)).getForObject("http://172.17.0.3:8080/stock", Stock[].class);
     }
 
     @Test
@@ -52,7 +52,7 @@ class StockServiceTests {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         JSONObject notification = new JSONObject();
-        notification.put("host", "localhost");
+        notification.put("host", "172.17.0.4");
         notification.put("port", 8081);
 
         HttpEntity<String> request = new HttpEntity<String>(notification.toString(), headers);
@@ -61,7 +61,7 @@ class StockServiceTests {
         stockService.registerClearStocksCache();
 
         // Assert tests
-        verify(restTemplate, times(1)).postForObject("http://localhost:8080/notification", request, String.class);
+        verify(restTemplate, times(1)).postForObject("http://172.17.0.3:8080/notification", request, String.class);
     }
     
 }
