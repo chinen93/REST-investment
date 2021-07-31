@@ -44,4 +44,9 @@ public class Quote {
     this.quotes = new HashMap<LocalDate, Double>();
     this.quotes.put(date, price);
   }
+
+  public Quote(String stockId) {
+    this.stockId = stockId;
+    this.quotes = new HashMap<LocalDate, Double>();
+  }
 }

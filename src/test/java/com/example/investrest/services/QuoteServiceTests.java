@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.example.investrest.repositories.QuoteRepository;
 import com.example.investrest.services.QuoteService;
@@ -22,7 +23,6 @@ import com.example.investrest.dto.QuoteDTO;
 import java.time.LocalDate;
 
 
-
 @ExtendWith(MockitoExtension.class)
 class QuoteServiceTests {
 
@@ -31,6 +31,7 @@ class QuoteServiceTests {
 
     private QuoteService quoteService;
     private Stock[] stocks = new Stock[2];
+    private String stockId = "PETR4";
 
     @BeforeEach
     void initUseCase() {
@@ -54,20 +55,47 @@ class QuoteServiceTests {
 
     @Test
     void testFindOneQuote(){
-        String stockId = "PETR4";
         quoteService.findOneQuote(stockId);
         verify(quoteRepository, times(1)).findByStockId(stockId);
     }
 
     @Test
     void testSaveQuoteNewQuote(){
-        String stockId = "PETR4";
+        // Mock values
         LocalDate date = LocalDate.now();
         Double price = new Double(35);
-
-        when(quoteRepository.findByStockId(stockId)).thenReturn(null);
         QuoteDTO quoteDTO = new QuoteDTO(stockId, date, price);
+
+        // Mock return
+        when(quoteRepository.findByStockId(stockId)).thenReturn(null);
+
+        // Run function
         Quote result = quoteService.saveQuote(quoteDTO, stocks);
-        verify(quoteRepository, times(1)).save(result);          
+
+        // Assert tests
+        verify(quoteRepository, times(1)).save(result);
     }
+
+    @Test
+    void testSaveQuoteUpdateQuote(){
+        // Mock values
+        LocalDate date = LocalDate.now();
+        Double price = new Double(35);
+        QuoteDTO quoteDTO = new QuoteDTO(stockId, date, price);
+        Quote quote = new Quote(stockId);
+        assertEquals(quote.getQuotes().size(), 0);
+
+        // Mock returns
+        when(quoteRepository.findByStockId(stockId)).thenReturn(quote);
+
+        // Run function
+        Quote result = quoteService.saveQuote(quoteDTO, stocks);
+
+        //  Assert tests
+        verify(quoteRepository, times(1)).save(result);
+        assertEquals(quote.getQuotes().size(), 1);
+
+    }
+
+
 }
