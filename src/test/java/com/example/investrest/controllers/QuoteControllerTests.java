@@ -120,4 +120,49 @@ public class QuoteControllerTests {
                     .andExpect(status().is(404));
         verify(quoteService, times(1)).findOneQuote(stockId);
     }
+
+    /*
+    @Test
+    public void testAddUpdateQuote() throws Exception {
+        // Mock variables
+        String stockId = "PETR4";
+        Stock[] stocks = new Stock[1];
+        stocks[0] = new Stock("PETR4", "desc");
+        
+        LocalDate date = LocalDate.now();
+        Double price = 30.0;
+        QuoteDTO quoteDTO = new QuoteDTO(stockId, date, price);
+        Quote quote = quoteDTO.createQuote();
+
+        // Mock service function
+        
+        // Strict stubbing argument mismatch. Please check:
+        // - this invocation of 'saveQuote' method:
+        //    quoteService.saveQuote(
+        //    com.example.investrest.dto.QuoteDTO@5d05ef57,
+        //    [com.example.investrest.models.Stock@585c13de]
+        //); -> at com.example.investrest.controllers.QuoteController.addNewQuote(QuoteController.java:47)
+        //- has following stubbing(s) with different arguments:
+        //    1. quoteService.saveQuote(
+        //    com.example.investrest.dto.QuoteDTO@58065f0c,
+        //    [com.example.investrest.models.Stock@585c13de]
+        //); -> at com.example.investrest.QuoteControllerTests.testAddUpdateQuote(QuoteControllerTests.java:138)
+        when(stockService.getStocksREST()).thenReturn(stocks);
+        when(quoteService.saveQuote(quoteDTO, stocks)).thenReturn(quote);
+        
+        JSONObject content = new JSONObject();
+        content.put("stockId", stockId);
+        content.put("date", date);
+        content.put("price", price);
+
+        // Hit the endpoint and assert test
+        this.mockMvc.perform(  
+                        post("/quote/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(content.toString())
+                    )
+                    .andDo(print())
+                    .andExpect(status().is(201));
+    }
+    */
 }
