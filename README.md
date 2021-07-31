@@ -49,3 +49,40 @@ Script creates .jar, build and run application Docker.
 ./run_script.sh
 ```
 
+# Links
+Read between 2021-07-23 and 2021-08-01
+
+Spring initial guides:
+- https://spring.io/guides/gs/rest-service/
+- https://spring.io/guides/gs/accessing-data-mysql/
+- https://spring.io/guides/gs/consuming-rest/
+- https://www.baeldung.com/spring-bean
+
+
+Database:
+- https://docs.spring.io/spring-data/data-commons/docs/1.6.1.RELEASE/reference/html/repositories.html
+- https://www.baeldung.com/spring-component-repository-service
+- https://www.baeldung.com/hibernate-persisting-maps
+
+
+Consuming REST:
+- https://www.baeldung.com/spring-rest-template-list
+- https://spring.io/guides/tutorials/rest/
+- https://www.baeldung.com/entity-to-and-from-dto-for-a-java-spring-application
+- https://www.baeldung.com/spring-resttemplate-post-json
+- https://www.baeldung.com/java-org-json
+
+
+Cache:
+- https://code.google.com/archive/p/ehcache-spring-annotations/wikis/UsingCacheable.wiki
+- https://www.baeldung.com/spring-boot-evict-cache
+
+
+Run code on startup:
+- https://www.baeldung.com/running-setup-logic-on-startup-in-spring
+
+
+Tests:
+- https://reflectoring.io/unit-testing-spring-boot/
+- https://javadoc.io/static/org.mockito/mockito-core/3.11.2/org/mockito/Mockito.html#14
+- https://tkstone.blog/2019/03/05/mockito-thenreturn-vs-thenanswer/
