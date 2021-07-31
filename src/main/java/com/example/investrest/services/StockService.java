@@ -12,12 +12,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 
-
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CacheEvict;
 
 import org.json.JSONObject;
-
 
 import com.example.investrest.models.Stock;
 
@@ -25,6 +23,16 @@ import com.example.investrest.models.Stock;
 public class StockService {
 
     private static final Logger log = LoggerFactory.getLogger(StockService.class);
+    private final RestTemplate restTemplate;
+
+    public StockService(){
+        this.restTemplate = new RestTemplate();
+    }
+
+    public StockService(RestTemplate restTemplate){
+        this.restTemplate = restTemplate;
+    }
+
 
     @Cacheable("stocks")
     public Stock[] getStocksREST(){
@@ -44,8 +52,7 @@ public class StockService {
         }
 
         // Get stocks from REST
-        RestTemplate restTemplate = new RestTemplate();
-        Stock[] stocks = restTemplate.getForObject("http://localhost:8080/stock", Stock[].class);
+        Stock[] stocks = this.restTemplate.getForObject("http://localhost:8080/stock", Stock[].class);
 
         return stocks;
     }
@@ -58,8 +65,6 @@ public class StockService {
     public void registerClearStocksCache(){
         log.info("Registering to clear stock cache");
 
-        RestTemplate restTemplate = new RestTemplate();
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -68,7 +73,7 @@ public class StockService {
         notification.put("port", 8081);
 
         HttpEntity<String> request = new HttpEntity<String>(notification.toString(), headers);
-        String notificationResult = restTemplate.postForObject("http://localhost:8080/notification", request, String.class);
+        String notificationResult = this.restTemplate.postForObject("http://localhost:8080/notification", request, String.class);
 
         log.info(notificationResult);
     }
