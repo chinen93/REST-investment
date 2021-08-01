@@ -87,3 +87,6 @@ Tests:
 - https://javadoc.io/static/org.mockito/mockito-core/3.11.2/org/mockito/Mockito.html#14
 - https://tkstone.blog/2019/03/05/mockito-thenreturn-vs-thenanswer/
 - https://blog.trifork.com/2012/12/11/properly-testing-spring-mvc-controllers/
+
+Shell Scripts:
+- https://www.redhat.com/sysadmin/arguments-options-bash-scripts
