@@ -1,7 +1,5 @@
 # REST-investment
 
-The application to be developed will use two services that run on docker containers.
-
 ## Create Database Docker
 
 Create command.
@@ -27,7 +25,7 @@ docker stop rest_mysql
 docker start rest_mysql
 ```
 
-## Create Producer Docker (Given code)
+## Create Stock Manager Docker (Given code)
 
 Create command.
 
@@ -42,12 +40,99 @@ docker stop rest_stock_manager
 docker start rest_stock_manager
 ```
 
-## Create / Run Consumer Docker
+## Create Quote Manager Docker
 
-Script creates .jar, build and run application Docker.
+Run command below to build and run application Docker.
+```sh
+./run_script.sh -b
+```
+
+Run command below to only run the last created application Docker.
 ```sh
 ./run_script.sh
 ```
+
+# Examples of possible Calls
+
+## REST Application (Quote Manager)
+
+List All Quotes:
+```sh
+curl --request GET \
+    --url http://localhost:8081/quote/all
+```
+
+List One Quote:
+```sh
+curl --request GET \
+    --url http://localhost:8081/quote/PETR4
+```
+
+Add Valid Quote:
+```sh
+curl --request POST \
+    --url http://172.17.0.4:8081/quote/add \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "stockId": "PETR4",
+        "date": "2021-08-09",
+        "price": 35.0
+    }'
+```
+
+Add Invalid Quote:
+```sh
+curl --request POST \
+    --url http://172.17.0.4:8081/quote/add \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "stockId": "INVALID",
+        "date": "2021-08-08",
+        "price": 35.0
+    }'
+```
+
+Delete Stocks Cache:
+```sh
+curl --request DELETE \
+    --url http://localhost:8081/stockcache
+```
+
+## Stock Manager
+
+List Stocks:
+```sh
+curl --request GET \
+    --url http://localhost:8080/stock
+```
+
+Add Stock:
+```sh
+curl --request POST \
+    --url http://localhost:8080/stock \
+    --header 'Content-Type: application/json' \
+    --data '{
+    	"id": "petr5",
+    	"description": "test petr"
+    }'
+```
+
+Register for Notifications:
+```sh
+curl --request POST \
+    --url http://localhost:8080/notification \
+    --header 'Content-Type: application/json' \
+    --data '{
+    	"host": "localhost",
+    	"port": 8081
+    }'
+```
+
+# Todo
+
+Things that I couldn't finish before the due date.
+- Endpoint tests for QuoteController add quote.
+- Tidy code with comments and remove unused imports.
 
 # Links
 Read between 2021-07-23 and 2021-08-01
